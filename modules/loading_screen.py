@@ -1,23 +1,26 @@
 from tkinter import *
 from itertools import cycle
 
-class loading(Tk):
+class Loading(Tk):
     def __init__(self):
         super().__init__()
+        self.initUI()
+
+    def initUI(self):
         self.geometry("400x150+500+300")
-        self.screen()
+        self.createWidgets()
         self.mainloop()
 
-    def screen(self):
+    def createWidgets(self):
         self.resizable(False, False)
         self.title("Student Management System - Loading")
-        self.config(background="white")
 
-        title_label = Label(text="Student Management System", font=("Arial", 16, "bold"), background="white")
-        title_label.pack(pady=5)
+        # Using pack layout manager for simplicity and central alignment
+        self.title_label = Label(self, text="Student Management System", font=("Arial", 16, "bold"))
+        self.title_label.pack(pady=5)
 
-        self.loading_label = Label(font=("Arial", 12), background="white")
-        self.loading_label.pack()
+        self.loading_label = Label(self, font=("Arial", 12))
+        self.loading_label.pack(pady=10)  # Increased padding for a cleaner look
 
         self.loading_animation = cycle(['|', '/', '-', '\\'])  # Symbols for animation
         self.animate()
@@ -25,18 +28,9 @@ class loading(Tk):
 
     def animate(self):
         symbol = next(self.loading_animation)
-        self.loading_label.config(text=symbol, fg=self.get_color(symbol), font=("Arial", 16, "bold"), padx=20)
+        # Removed get_color function and fixed the font and color to black for simplicity
+        self.loading_label.config(text=symbol, font=("Arial", 16, "bold"))
         self.after(200, self.animate)  # Change the delay to adjust animation speed
 
-    def get_color(self, symbol):
-        if symbol == '|':
-            return 'red'
-        elif symbol == '/':
-            return 'blue'
-        elif symbol == '-':
-            return 'green'
-        else:
-            return 'black'
-
 if __name__ == "__main__":
-    l = loading()
+    Loading()

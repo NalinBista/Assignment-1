@@ -1,91 +1,81 @@
 from tkinter import *
 from tktooltip import ToolTip
-from modules import backend as bk, superadmin as sp, admin as ad, faculty, student
+from windows import backend as bk, superadmin as sp, admin as ad, faculty, student
 from tkinter import messagebox as mb, simpledialog as sd
 from tkcalendar import DateEntry
 
 
 class Login():
-    def __init__(self, win):
+    def __init__(self, win, img_list):
         self.win = win
-        # self.win.geometry("500x700+500+300")  # Change the geometry of the wind
-        self.center_window()  # Call the function to center the window
+        self.img_list = img_list
         self.login_gui()
-
-    def center_window(self):
-        # Get the width and height of the screen
-        screen_width = self.win.winfo_screenwidth()
-        screen_height = self.win.winfo_screenheight()
-
-        # Calculate the x and y coordinates to place the window at the center of the screen
-        x = (screen_width - 500) // 2  # 500 is the width of the window
-        y = (screen_height - 500) // 2  # 700 is the height of the window
-
-        # Set the geometry of the window to place it at the center
-        self.win.geometry(f"500x500+{x}+{y}")
 
     def login_gui(self):
         self.username = StringVar()
         self.password = StringVar()
-
-        self.login_frame = Frame(self.win)
-
-        Label(self.login_frame, text="LOGIN", font=("Segoe UI Black", 25),
+        self.frame1 = Frame(self.win, width=1400,
+                            height=790, )
+        self.frame1.place(x=0, y=0)
+        self.lbl = Frame(self.frame1, height=460, width=490,
+                         bd=2, relief="solid")
+        self.lbl.place(x=430, y=140)
+        Label(self.lbl, text="LOGIN", font=("Segoe UI Black", 25),
               ).place(x=160, y=10)
-        Label(self.login_frame, text="Username :", font=("Century", 15),
+        Label(self.lbl, text="Username :", font=("Century", 20),
               ).place(x=10, y=100)
-        self.uname_txt = Entry(self.login_frame, font=(
-            "Cambria", 27), background="white", width=20, bd=1, relief="solid", textvariable=self.username)
+        self.uname_txt = Entry(self.lbl, font=(
+            "Times New Roman", 27),  width=25, bd=1, relief="solid", textvariable=self.username)
         self.uname_txt.place(x=15, y=145)
-        Label(self.login_frame, text="Password :", font=("Century", 15),
+        Label(self.lbl, text="Password :", font=("Century", 20),
               ).place(x=10, y=220)
-        self.pass_txt = Entry(self.login_frame, font=("Cambria", 27),
-                              background="white", show="•", width=20, bd=1, relief="solid", textvariable=self.password)
+        self.pass_txt = Entry(self.lbl, font=("Times New Roman", 27),
+                              show="•", width=25, bd=1, relief="solid", textvariable=self.password)
         self.pass_txt.place(x=15, y=270)
-        self.reset_btn = Button(
-            self.login_frame, text="Reset", font=(15),
-               relief="ridge", bd=2, command=self.reset_field)
+        self.reset_btn = Button(self.lbl, text="Clear", bd=1, font=("Verdana", 15),
+                                command=self.reset_field)
         self.reset_btn.place(x=150, y=390)
-        Button(self.login_frame, text="Login", font=(15),
-               relief="ridge", bd=2, command=self.login).place(x=20, y=390)
+        Button(self.lbl, text="Login", bd=1, font=("Verdana", 15),
+               command=self.logon).place(x=20, y=390)
         self.count = IntVar()
-        self.show_pass = Checkbutton(self.login_frame, text="Show Password", variable=self.count,
+        self.show_pass = Checkbutton(self.lbl, text="Show Password", variable=self.count,
                                      font=("Calibri", 14, "bold"), command=self.show_password).place(x=16, y=330)
         ToolTip(self.reset_btn, msg="Reset the field", follow=True)
-        self.forgot = Label(self.login_frame, text="Forgot Username/Password ?",
-                            foreground="blue", font=("Calibri", 12, "bold", "underline"))
+        self.forgot = Label(self.lbl, text="Forgot Username/Password ?",
+                            font=("Calibri", 12, "bold", "underline"))
         self.forgot.place(x=260, y=330)
         self.forgot.bind("<Button-1>", self.__forgot_frame)
-
-        self.login_frame.pack(expand=True, fill=BOTH)
+        self.main_label = Label(self.frame1, text="STUDENT MANAGEMENT SYSTEM", font=(
+            "Times New Roman", 40)).place(x=250, y=30)
 
     def reset_field(self):
         self.username.set("")
         self.password.set("")
 
     def __forgot_frame(self, e):
-        self.login_frame.pack_forget()
-        self.forgot_frame = Frame(self.win)
-        self.forgot_frame.pack(expand=True, fill="both")
-        self.backlogin_frame = Label(self.forgot_frame, text="Back to Login",
-                                     foreground="blue", font=("Calibri", 14, "bold", "underline"))
-        self.backlogin_frame.place(x=10, y=560)
-        self.backlogin_frame.bind("<Button-1>", lambda e: self.login_gui())
-        Label(self.forgot_frame, text="Forgot Username/Password", font=("lucida",
-              18, "bold")).place(x=100, y=10)
+        self.lbl.place_forget()
+        self.lbl1 = Frame(self.frame1, height=600, width=500,
+                          bd=2, relief="solid")
+        self.lbl1.place(x=400, y=140)
+        self.backlbl = Label(self.lbl1, text="Back to Login Page",
+                             foreground="blue", font=("Calibri", 14, "bold", "underline"))
+        self.backlbl.place(x=10, y=560)
+        self.backlbl.bind("<Button-1>", lambda e: self.login_gui())
+        Label(self.lbl1, text="Forgot Username/Password", font=("lucida",
+              18, "bold"),).place(x=100, y=10)
         self.id = StringVar()
-        Label(self.forgot_frame, text="Enter Your ID :", font=(
-            "Century", 13)).place(x=10, y=70)
-        Label(self.forgot_frame, text="Enter Your Date Of Birth : (mm/dd/yyyy) format",
-              font=("Century", 13)).place(x=10, y=140)
-        Entry(self.forgot_frame, textvariable=self.id, font=(
-            "Cambria", 19), relief="solid", bd=2).place(x=10, y=100)
-        self.dob = DateEntry(self.forgot_frame, selectmode="day", font=(
-            "Cambria", 16), bd=2, relief="solid")
+        Label(self.lbl1, text="Enter Your ID :", font=(
+            "Century", 13),).place(x=10, y=70)
+        Label(self.lbl1, text="Enter Your Date Of Birth : (mm/dd/yyyy) format",
+              font=("Century", 13),).place(x=10, y=140)
+        Entry(self.lbl1, textvariable=self.id, font=(
+            "Times New Roman", 19), relief="solid", bd=2).place(x=10, y=100)
+        self.dob = DateEntry(self.lbl1, selectmode="day", font=(
+            "Times New Roman", 16), bd=2, relief="solid")
         self.dob.place(x=10, y=170)
-        Button(self.forgot_frame, text="Get Username", font=(15),
+        Button(self.lbl1, text="Get Username", font=("Verdana", 15), bg="#fab6b1",
                relief="ridge", bd=2, command=self.__get_username).place(x=100, y=240)
-        Button(self.forgot_frame, text="Forgot Password", font=(15),
+        Button(self.lbl1, text="Forgot Password", font=("Verdana", 15), bg="#fab6b1",
                relief="ridge", bd=2, command=self.__set_password).place(x=270, y=240)
 
     def validation(self):
@@ -116,20 +106,20 @@ class Login():
     def __set_password(self):
         if self.validation():
             self.password_label = Label(
-                self.forgot_frame, bg="#4bf542", height=14, width=70)
+                self.lbl1, bg="#4bf542", height=14, width=70)
             self.password_label.place(x=0, y=310)
             self.new_password = StringVar()
             self.reenter_password = StringVar()
             self.new_password_txt = Entry(self.password_label, font=(
-                "Cambria", 15), background="white", show="•", width=25, bd=1, relief="solid", textvariable=self.new_password)
+                "Times New Roman", 15),  show="•", width=25, bd=1, relief="solid", textvariable=self.new_password)
             self.new_password_txt.place(x=10, y=30)
             self.reenter_pass_txt = Entry(self.password_label, font=(
-                "Cambria", 15), background="white", show="•", width=25, bd=1, relief="solid", textvariable=self.reenter_password)
+                "Times New Roman", 15),  show="•", width=25, bd=1, relief="solid", textvariable=self.reenter_password)
             self.reenter_pass_txt.place(x=10, y=100)
             Label(self.password_label, text="Enter New Password :", font=(
-                "Century", 13)).place(x=10, y=0)
+                "Century", 13),).place(x=10, y=0)
             Label(self.password_label, text="Re-enter Password :",
-                  font=("Century", 13)).place(x=10, y=70)
+                  font=("Century", 13),).place(x=10, y=70)
             Button(self.password_label, text="UPDATE", font=("Verdana", 16), bg="#ecfc05",
                    relief="raised", bd=2, command=self.__change_password).place(x=30, y=140)
             self.show_pass = Checkbutton(self.password_label, text="Show Password", variable=self.count,
@@ -161,10 +151,10 @@ class Login():
         else:
             self.pass_txt.configure(show="•")
 
-    def login(self):
+    def logon(self):
         self.user_name = self.username.get()
         self.pass_word = self.password.get()
-        query = "select * from login_details where uname=%s and password=sha1(%s);"
+        query = "select * from login_details where uname=%s and password=sha(%s);"
         val = (self.user_name, self.pass_word)
         result = bk.fetch_details(query, val)
         if len(result) == 0:
@@ -176,17 +166,17 @@ class Login():
             id = result[0]
             self.change_frame(typeofuser, result)
 
-    def change_frame(self, type, user_tuple):
+    def change_frame(self, type, user_details):
 
         if type == "superadmin":
-            self.login_frame.pack_forget()
-            sp.SA(self.win, user_tuple)
+            self.frame1.place_forget()
+            sp.SA(self.win, self.img_list, user_details)
         elif type == "admin":
-            self.login_frame.pack_forget()
-            ad.admin(self.win, user_tuple)
+            self.frame1.place_forget()
+            ad.admin(self.win, self.img_list, user_details)
         elif type == "faculty":
-            self.login_frame.pack_forget()
-            faculty.Faculty(self.win, user_tuple)
+            self.frame1.place_forget()
+            faculty.Faculty(self.win, self.img_list, user_details)
         elif type == "student":
-            self.login_frame.pack_forget()
-            student.Student(self.win, user_tuple)
+            self.frame1.place_forget()
+            student.Student(self.win, self.img_list, user_details)
