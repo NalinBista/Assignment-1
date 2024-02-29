@@ -1,6 +1,6 @@
 from tkinter import *
 from tktooltip import ToolTip
-from modules import backend as bk, superadmin_win as sp, admin as ad, faculty, student
+from modules import admin_win as ad, backend as bk, faculty_win, student_win, superadmin_win as sp
 from tkinter import messagebox as mb, simpledialog as sd
 from tkcalendar import DateEntry
 
@@ -173,10 +173,10 @@ class Login():
             sp.SuperAdmin(self.win, self.img_list, user_details)
         elif type == "admin":
             self.frame1.place_forget()
-            ad.admin(self.win, self.img_list, user_details)
+            ad.Admin(self.win, self.img_list, user_details)
         elif type == "faculty":
             self.frame1.place_forget()
-            faculty.Faculty(self.win, self.img_list, user_details)
+            faculty_win.Faculty(self.win, self.img_list, user_details)
         elif type == "student":
             self.frame1.place_forget()
-            student.Student(self.win, self.img_list, user_details)
+            student_win.Student(self.win, self.img_list, user_details)

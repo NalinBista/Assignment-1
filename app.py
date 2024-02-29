@@ -1,6 +1,6 @@
 import sys
 from tkinter import *
-from windows import loading_screen, login_win
+from modules import loading_screen, login_win
 from PIL import Image, ImageTk
 
 
