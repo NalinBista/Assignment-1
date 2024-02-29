@@ -24,11 +24,11 @@ try:
     cursor = conn.cursor()
 
     # Hashing the password using SHA-1
-    password = "anil"
+    password = "admin"
     hashed_password = hashlib.sha1(password.encode()).hexdigest()
 
     # Data to be inserted
-    data_to_insert = ('AD10000', 'anil', hashed_password, 'superadmin')
+    data_to_insert = ('AD10000', 'admin', hashed_password, 'superadmin')
 
     # SQL statement for insertion
     insert_query = "INSERT INTO `login_details` VALUES (%s, %s, %s, %s)"
